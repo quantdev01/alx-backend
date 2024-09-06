@@ -45,9 +45,9 @@ class Server:
             assert page != 0
             assert page_size != 0
 
-        if page < 0 or page_size < 0:
-            assert page < 0
-            assert page_size < 0
+        if page < 1 or page_size < 1:
+            assert page < 1
+            assert page_size < 1
 
         page_index = index_range(page, page_size)
 

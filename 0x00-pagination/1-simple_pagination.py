@@ -33,8 +33,14 @@ class Server:
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         assert isinstance(page, int)
         assert isinstance(page_size, int)
-        # assert page < 0
-        # assert page_size < 0
+        if page == 0 or page_size == 0:
+            assert page != 0
+            assert page_size != 0
+
+        if page < 0 or page_size < 0:
+            assert page < 0
+            assert page_size < 0
+
         page_index = index_range(page, page_size)
 
         mydataset = self.dataset()
@@ -42,8 +48,6 @@ class Server:
         data = []
 
         try:
-            # for i in range(page_index[0], page_index[1]):
-            # data = mydataset[i]
             data = mydataset[page_index[0]:page_index[1]]
         except IndexError:
             return []

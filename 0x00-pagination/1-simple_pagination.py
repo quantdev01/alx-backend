@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
+"""
+1. Simple pagination
+"""
 
 import csv
 import math
 from typing import List
 index_range = __import__('0-simple_helper_function').index_range
 
-"""
-1. Simple pagination
-"""
 
 
 class Server:

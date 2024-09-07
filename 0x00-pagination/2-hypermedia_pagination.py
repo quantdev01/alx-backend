@@ -25,10 +25,7 @@ class Server:
 
     def dataset(self) -> List[List]:
         """
-        Load and cache the dataset from a CSV file.
-
-        Returns:
-            List[List]: The dataset excluding the header row.
+        Cached dataset
         """
         if self.__dataset is None:
             with open(self.DATA_FILE) as f:
@@ -40,17 +37,7 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """
-        Retrieve a specific page of the dataset.
-
-        Args:
-            page (int): The page number to retrieve (1-based index). Defaults to 1.
-            page_size (int): The number of items per page. Defaults to 10.
-
-        Returns:
-            List[List]: The page of data corresponding to the requested page.
-
-        Raises:
-            ValueError: If `page` or `page_size` is less than 1.
+        My get page function
         """
         assert isinstance(page, int)
         assert isinstance(page_size, int)
@@ -76,21 +63,8 @@ class Server:
         return data
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
-         """
-        Retrieve a page of the dataset with additional pagination information.
-
-        Args:
-            page (int): The page number to retrieve (1-based index). Defaults to 1.
-            page_size (int): The number of items per page. Defaults to 10.
-
-        Returns:
-            Dict: A dictionary containing the following key-value pairs:
-                - 'page_size': The length of the returned dataset page.
-                - 'page': The current page number.
-                - 'data': The dataset page (equivalent to the return value from get_page).
-                - 'next_page': The number of the next page, or None if no next page.
-                - 'prev_page': The number of the previous page, or None if no previous page.
-                - 'total_pages': The total number of pages in the dataset.
+        """
+        Get hyper data from the list with extra info
         """
         data = self.get_page(page, page_size)
         total_items = len(self.dataset())  # Total items in the dataset

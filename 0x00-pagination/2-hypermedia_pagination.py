@@ -2,13 +2,13 @@
 
 import csv
 import math
-from typing import List, Dict
-
+from typing import List
 index_range = __import__('0-simple_helper_function').index_range
 
 """
-Module for pagination in a dataset.
+1. Simple pagination
 """
+
 
 class Server:
     """
@@ -19,7 +19,7 @@ class Server:
 
     def __init__(self):
         """
-        Initialize the Server instance.
+        init function
         """
         self.__dataset = None
 
@@ -52,19 +52,31 @@ class Server:
         Raises:
             ValueError: If `page` or `page_size` is less than 1.
         """
+        assert isinstance(page, int)
+        assert isinstance(page_size, int)
+        if page == 0 or page_size == 0:
+            assert page != 0
+            assert page_size != 0
+
         if page < 1 or page_size < 1:
-            raise ValueError("Page and page_size must be greater than 0")
+            assert page < 1
+            assert page_size < 1
 
         page_index = index_range(page, page_size)
+
         mydataset = self.dataset()
 
+        data = []
+
         try:
-            return mydataset[page_index[0]:page_index[1]]
+            data = mydataset[page_index[0]:page_index[1]]
         except IndexError:
             return []
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
-        """
+        return data
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+         """
         Retrieve a page of the dataset with additional pagination information.
 
         Args:
@@ -81,18 +93,24 @@ class Server:
                 - 'total_pages': The total number of pages in the dataset.
         """
         data = self.get_page(page, page_size)
-        total_items = len(self.dataset())
-        total_pages = math.ceil(total_items / page_size)
+        total_items = len(self.dataset())  # Total items in the dataset
+        total_pages = math.ceil(total_items / page_size)  # Calcula
 
-        prev_page = None if page <= 1 else page - 1
-        next_page = None if page >= total_pages else page + 1
+        if page <= 1:
+            prev_page = None
+        else:
+            prev_page = page - 1
+
+        if page >= total_pages:
+            next_page = None
+        else:
+            next_page = page + 1
 
         return {
-                'page_size': len(data),
-                'page': page,
-                'data': data,
-                'next_page': next_page,
-                'prev_page': prev_page,
-                'total_pages': total_pages
-                }
+            'page_size': len(data),
+            'page': page,
+            'data': data,
+            'next_page': next_page,
+            'prev_page': prev_page,
+            'total_pages': total_pages
         }

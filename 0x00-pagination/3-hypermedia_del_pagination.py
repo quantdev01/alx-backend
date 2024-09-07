@@ -28,7 +28,7 @@ class Server:
 
         return self.__dataset
 
-    def indexed_dataset(self) -> Dict[int, List]:
+    def indexed_dataset(self) -> dict[int, List]:
         """Dataset indexed by sorting position, starting at 0
         """
         if self.__indexed_dataset is None:
@@ -39,5 +39,27 @@ class Server:
             }
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-            pass
+    def get_hyper_index(self, index: int = None, page_size: int = 10) -> dict:
+        """Last hyper
+        """
+        indexed_data = self.indexed_dataset()
+
+        # Determine the range of data to return
+        data = []
+        next_index = None
+
+        for i in range(index, index + page_size):
+            if i in indexed_data:
+                data.append(indexed_data[i])
+            else:
+                # Break loop if we encounter an index not in the dataset
+                break
+
+        # Calculate the next index
+        next_index = index + page_size if len(data) == page_size else None
+
+        return {
+            'page_size': len(data),
+            'data': data,
+            'next_index': next_index
+        }
